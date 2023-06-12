@@ -34,12 +34,12 @@ public class SongDao {
       """;
 
     private static final String ADD_SONG = """
-      insert article(title, name)
+      insert song(title, name)
       values (:title, :name)
       """;
 
     private static final String UPDATE_SONG = """
-      update article set title=:title, name=:name
+      update song set title=:title, name=:name
       where songId=:songId
       """;
 
