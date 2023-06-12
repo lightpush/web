@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MovieDao{
     private static final String LIST_MOVIES = """
-      select movieId, title from movie
+      select movieId, title, director from movie
       order by movieId desc limit ?,?
       """;
 

@@ -19,7 +19,7 @@ import java.util.List;
 public class SongDao {
 
     private static final String LIST_SONGS = """
-      select songId, title from song
+      select songId, title, name from song
       order by songId desc limit ?,?
       """;
 
