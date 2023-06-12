@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.mjc.gwangmin.web.dao.Limit;
 import kr.mjc.gwangmin.web.dao.User;
 import kr.mjc.gwangmin.web.dao.UserDao;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +33,10 @@ public class UserListServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    int count = Integer.parseInt(req.getParameter("count"));
-    int page = Integer.parseInt(req.getParameter("page"));
-    List<User> userList = userDao.listUsers(count, page);
+    Limit limit =
+        new Limit(req.getParameter("count"), req.getParameter("page"));
+    req.setAttribute("limit", limit);
+    List<User> userList = userDao.listUsers(limit);
     req.setAttribute("userList", userList);
     req.getRequestDispatcher("/WEB-INF/jsp/user/userList.jsp")
         .forward(req, resp);

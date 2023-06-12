@@ -44,11 +44,11 @@ public class SignupServlet extends HttpServlet {
       userDao.addUser(user);
       // 등록 성공
       HttpSession session = req.getSession();
-      session.setAttribute("me.userId", user.getUserId());
-      session.setAttribute("me.name", user.getName());
-      session.setAttribute("me.email", user.getEmail());
+      session.setAttribute("me_userId", user.getUserId());
+      session.setAttribute("me_name", user.getName());
+      session.setAttribute("me_email", user.getEmail());
       resp.sendRedirect(
-          req.getContextPath() + "/servlets/user/userList?count=20&page=1");
+          req.getContextPath() + "/servlets/user/userList");
     } catch (DataAccessException e) { // 등록 실패
       log.error(e.getCause().toString());
       resp.sendRedirect(req.getContextPath() + "/servlets/user/signupForm?mode=FAILURE");

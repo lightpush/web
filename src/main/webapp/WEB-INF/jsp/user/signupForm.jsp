@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 2023-05-16
-  Time: 오후 2:28
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,8 +14,7 @@
       <li><input type="email" name="email" placeholder="이메일" required
                  autofocus/>
       </li>
-      <li><input type="password" name="password" placeholder="비밀번호"
-                 required/>
+      <li><input type="password" name="password" placeholder="비밀번호" required/>
       </li>
       <li><input type="text" name="name" placeholder="이름" required/></li>
     </ul>

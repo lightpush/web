@@ -43,7 +43,7 @@ public class SigninServlet extends HttpServlet {
       session.setAttribute("me_name", user.getName());
       session.setAttribute("me_email", user.getEmail());
       resp.sendRedirect(
-          req.getContextPath() + "/servlets/user/userList?count=20&page=1");
+          req.getContextPath() + "/servlets/user/userList");
     } catch (DataAccessException e) {
       // 로그인 실패
       resp.sendRedirect(req.getContextPath() + "/servlets/user/signinForm?mode=FAILURE");

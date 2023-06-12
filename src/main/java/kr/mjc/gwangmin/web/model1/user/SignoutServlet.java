@@ -18,6 +18,6 @@ public class SignoutServlet extends HttpServlet {
       throws IOException {
     req.getSession().invalidate();
     resp.sendRedirect(
-        req.getContextPath() + "/servlets/user/userList?count=20&page=1");
+        req.getContextPath() + "/servlets/user/userList");
   }
 }

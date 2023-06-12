@@ -25,6 +25,11 @@ public class ArticleDao {
       where articleId=?
       """;
 
+  private static final String GET_USER_ARTICLE = """
+      select articleId, title, content, userId, name, cdate, udate from article
+      where articleId=? and userId=?
+      """;
+
   private static final String ADD_ARTICLE = """
       insert article(title, content, userId, name)
       values (:title, :content, :userId, :name)
@@ -46,14 +51,19 @@ public class ArticleDao {
   private final RowMapper<Article> articleRowMapper =
       new BeanPropertyRowMapper<>(Article.class);
 
-  public List<Article> listArticles(int count, int page) {
-    int offset = (page - 1) * count;
-    return jdbcTemplate.query(LIST_ARTICLES, articleRowMapper, offset, count);
+  public List<Article> listArticles(Limit limit) {
+    return jdbcTemplate.query(LIST_ARTICLES, articleRowMapper,
+        limit.getOffset(), limit.getCount());
   }
 
   public Article getArticle(int articleId) {
     return jdbcTemplate.queryForObject(GET_ARTICLE, articleRowMapper,
         articleId);
+  }
+
+  public Article getUserArticle(int articleId, int userId) {
+    return jdbcTemplate.queryForObject(GET_USER_ARTICLE, articleRowMapper,
+        articleId, userId);
   }
 
   public void addArticle(Article article) {

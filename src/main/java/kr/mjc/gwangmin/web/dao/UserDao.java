@@ -55,13 +55,12 @@ public class UserDao {
   /**
    * 회원 목록
    *
-   * @param count 목록의 갯수
-   * @param page  페이지
+   * @param limit 목록의 갯수와 페이지
    * @return 회원 목록
    */
-  public List<User> listUsers(int count, int page) {
-    int offset = (page - 1) * count;  // 목록의 시작 시점
-    return jdbcTemplate.query(LIST_USERS, userRowMapper, offset, count);
+  public List<User> listUsers(Limit limit) {
+    return jdbcTemplate.query(LIST_USERS, userRowMapper, limit.getOffset(),
+        limit.getCount());
   }
 
   /**
@@ -107,7 +106,7 @@ public class UserDao {
    * @return 수정 성공시 1, 회원이 없거나 비밀번호가 틀리면 0
    */
   public int updatePassword(int userId, String currentPassword,
-                            String newPassword) {
+      String newPassword) {
     return jdbcTemplate.update(UPDATE_PASSWORD, newPassword, userId,
         currentPassword);
   }
