@@ -7,12 +7,7 @@ import org.owasp.encoder.Encode;
 public class Movie {
     int movieId;
     String title;
-    int userId;
-
     String director;
-    String name;
-    String cdate;
-    String udate;
 
     public String getTitleEncoded() {
         return Encode.forHtml(title);
@@ -31,7 +26,7 @@ public class Movie {
     @Override
     public String toString() {
         return String.format(
-                "\nMovie{movieId=%d, title=%s, director=%s, userId=%d, name=%s, cdate=%s, udate=%s}",
-                movieId, title, director, userId, name, cdate, udate);
+                "\nMovie{movieId=%d, title=%s, director=%s}",
+                movieId, title, director);
     }
 }

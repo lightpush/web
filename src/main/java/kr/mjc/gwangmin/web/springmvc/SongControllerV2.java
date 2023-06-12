@@ -2,9 +2,9 @@ package kr.mjc.gwangmin.web.springmvc;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.mjc.gwangmin.web.HttpUtils;
+import kr.mjc.gwangmin.web.dao.Limit;
 import kr.mjc.gwangmin.web.dao.Song;
 import kr.mjc.gwangmin.web.dao.SongDao;
-import kr.mjc.gwangmin.web.dao.Limit;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -38,11 +38,7 @@ public class SongControllerV2 {
     }
 
     @PostMapping("song/addSong")
-    public String addSong(Song song,
-                             @SessionAttribute("me_userId") int userId,
-                             @SessionAttribute("me_name") String name) {
-        song.setUserId(userId);
-        song.setName(name);
+    public String addSong(Song song) {
         songDao.addSong(song);
         return "redirect:/app/song/songList";
     }
@@ -53,27 +49,22 @@ public class SongControllerV2 {
     }
 
     @GetMapping("/song/songEdit")
-    public void songEdit(int songId,
-                            @SessionAttribute("me_userId") int userId, Model model) {
-        Song song = getUserSong(songId, userId);
+    public void songEdit(int songId, Model model) {
+        Song song = getUserSong(songId);
         model.addAttribute("song", song);
     }
 
     @PostMapping("/song/updateSong")
-    public String updateSong(Song song,
-                                @SessionAttribute("me_userId") int userId) {
-        getUserSong(song.getSongId(), userId);
-        song.setUserId(userId);
+    public String updateSong(Song song) {
         songDao.updateSong(song);
         return "redirect:/app/song/song?songId=" + song.getSongId();
     }
 
     @GetMapping("/song/deleteSong")
     public String deleteSong(int songId,
-                                @SessionAttribute("me_userId") int userId,
-                                @SessionAttribute(CURRENT_SONG_LIST) String currentSongList) {
-        getUserSong(songId, userId);
-        songDao.deleteSong(songId, userId);
+                             @SessionAttribute(CURRENT_SONG_LIST) String currentSongList) {
+        getUserSong(songId);
+        songDao.deleteSong(songId);
         return "redirect:" + currentSongList;
     }
 
@@ -82,9 +73,9 @@ public class SongControllerV2 {
      *
      * @throws ResponseStatusException 권한이 없을 경우
      */
-    private Song getUserSong(int songId, int userId) {
+    private Song getUserSong(int songId) {
         try {
-            return songDao.getUserSong(songId, userId);
+            return songDao.getUserSong(songId);
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

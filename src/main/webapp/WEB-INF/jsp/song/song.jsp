@@ -25,9 +25,7 @@
         <a id="btnDel" href="./deleteSong?songId=${song.songId}">글삭제</a>
     </p>
     <p class="info title">${song.songId}. ${song.titleEncoded}</p>
-    <p class="info">${song.cdate} / <a
-            href="../user/userInfo?userId=${song.userId}">${song.name}</a></p>
-    <p class="info">${song.snameHtml}</p>
+    <p class="info">${song.nameHtml}</p>
 </main>
 </body>
 </html>

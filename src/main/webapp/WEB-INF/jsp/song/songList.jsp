@@ -28,18 +28,17 @@
         <tr>
             <th>번호</th>
             <th>제목</th>
-            <th>글쓴이</th>
-            <th>등록일시</th>
+            <th>가수</th>
         </tr>
         <c:forEach var="song" items="${songList}">
             <tr>
                 <td>${song.songId}</td>
                 <td><a
                         href="./song?songId=${song.songId}">${song.titleEncoded}</a>
-                    <!-- titleEncoded는 제목에서 html을 못쓰게 한다 -->
-                    <!-- >112. 제목 &lt;script&gt;alert(&#34;abc&#34;);&lt;/script&gt; &lt;h1&gt;큰글자&lt;/h1&gt;</p> -->
                 </td>
-                <td><a href="../song?songId=${song.userId}">${song.name}</a></td>
+                <td><a
+                        href="./song?songId=${song.songId}">${song.nameEncoded}</a>
+                </td>
 
             </tr>
         </c:forEach>

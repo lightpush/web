@@ -19,32 +19,32 @@ import java.util.List;
 @AllArgsConstructor
 public class MovieDao{
     private static final String LIST_MOVIES = """
-      select movieId, title, userId, name, cdate, udate from movie
+      select movieId, title from movie
       order by movieId desc limit ?,?
       """;
 
     private static final String GET_MOVIE = """
-      select movieId, title, director, userId, name, cdate, udate from movie
+      select movieId, title, director from movie
       where movieId=?
       """;
 
     private static final String GET_USER_MOVIE = """
-      select movieId, title, director, userId, name, cdate, udate from movie
-      where movieId=? and userId=?
+      select movieId, title, director from movie
+      where movieId=?
       """;
 
     private static final String ADD_MOVIE = """
-      insert movie(title, director, userId, name)
-      values (:title, :director, :userId, :name)
+      insert movie(title, director)
+      values (:title, :director)
       """;
 
     private static final String UPDATE_MOVIE = """
       update movie set title=:title, director=:director
-      where movieId=:movieId and userId=:userId
+      where movieId=:movieId
       """;
 
     private static final String DELETE_MOVIE =
-            "delete from movie where movieId=? and userId=?";
+            "delete from movie where movieId=?";
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -64,9 +64,9 @@ public class MovieDao{
                 movieId);
     }
 
-    public Movie getUserMovie(int movieId, int userId) {
+    public Movie getUserMovie(int movieId) {
         return jdbcTemplate.queryForObject(GET_USER_MOVIE, movieRowMapper,
-                movieId, userId);
+                movieId);
     }
 
     public void addMovie(Movie movie) {
@@ -79,7 +79,7 @@ public class MovieDao{
         return namedParameterJdbcTemplate.update(UPDATE_MOVIE, params);
     }
 
-    public int deleteMovie(int movieId, int userId) {
-        return jdbcTemplate.update(DELETE_MOVIE, movieId, userId);
+    public int deleteMovie(int movieId) {
+        return jdbcTemplate.update(DELETE_MOVIE, movieId);
     }
 }

@@ -25,8 +25,6 @@
         <a id="btnDel" href="./deleteMovie?movieId=${movie.movieId}">글삭제</a>
     </p>
     <p class="info title">${movie.movieId}. ${movie.titleEncoded}</p>
-    <p class="info">${movie.cdate} / <a
-            href="../user/userInfo?userId=${movie.userId}">${movie.name}</a></p>
     <p class="info">${movie.directorHtml}</p>
 </main>
 </body>

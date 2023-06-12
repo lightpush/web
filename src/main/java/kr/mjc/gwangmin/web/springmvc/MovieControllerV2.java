@@ -40,11 +40,7 @@ public class MovieControllerV2 {
     }
 
     @PostMapping("/movie/addMovie")
-    public String addMovie(Movie movie,
-                             @SessionAttribute("me_userId") int userId,
-                             @SessionAttribute("me_name") String name) {
-        movie.setUserId(userId);
-        movie.setName(name);
+    public String addMovie(Movie movie) {
         movieDao.addMovie(movie);
         return "redirect:/app/movie/movieList";
     }
@@ -55,9 +51,8 @@ public class MovieControllerV2 {
     }
 
     @GetMapping("/movie/movieEdit")
-    public void movieEdit(int movieId,
-                            @SessionAttribute("me_userId") int userId, Model model) {
-        Movie movie = getUserMovie(movieId, userId);
+    public void movieEdit(int movieId, Model model) {
+        Movie movie = getUserMovie(movieId);
         model.addAttribute("movie", movie);
     }
 
@@ -69,10 +64,9 @@ public class MovieControllerV2 {
 
     @GetMapping("/movie/deleteMovie")
     public String deleteMovie(int movieId,
-                                @SessionAttribute("me_userId") int userId,
                                 @SessionAttribute(CURRENT_MOVIE_LIST) String currentMovieList) {
-        getUserMovie(movieId, userId);
-        movieDao.deleteMovie(movieId, userId);
+        getUserMovie(movieId);
+        movieDao.deleteMovie(movieId);
         return "redirect:" + currentMovieList;
     }
 
@@ -81,9 +75,9 @@ public class MovieControllerV2 {
      *
      * @throws ResponseStatusException 권한이 없을 경우
      */
-    private Movie getUserMovie(int movieId, int userId) {
+    private Movie getUserMovie(int movieId) {
         try {
-            return movieDao.getUserMovie(movieId, userId);
+            return movieDao.getUserMovie(movieId);
         } catch (DataAccessException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

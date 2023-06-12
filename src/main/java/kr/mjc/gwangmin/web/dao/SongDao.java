@@ -19,32 +19,32 @@ import java.util.List;
 public class SongDao {
 
     private static final String LIST_SONGS = """
-      select songId, title, userId, name, cdate, udate from song
+      select songId, title from song
       order by songId desc limit ?,?
       """;
 
     private static final String GET_SONG = """
-      select songId, title, sname, userId, name, cdate, udate from song
+      select songId, title, name from song
       where songId=?
       """;
 
     private static final String GET_USER_SONG = """
-      select songId, title, sname, userId, name, cdate, udate from song
-      where songId=? and userId=?
+      select songId, title, name from song
+      where songId=?
       """;
 
     private static final String ADD_SONG = """
-      insert article(title, sname, userId, name)
-      values (:title, :sname, :userId, :name)
+      insert article(title, name)
+      values (:title, :name)
       """;
 
     private static final String UPDATE_SONG = """
-      update article set title=:title, sname=:sname
-      where songId=:songId and userId=:userId
+      update article set title=:title, name=:name
+      where songId=:songId
       """;
 
     private static final String DELETE_SONG =
-            "delete from song where songId=? and userId=?";
+            "delete from song where songId=?";
 
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -64,9 +64,9 @@ public class SongDao {
                 songId);
     }
 
-    public Song getUserSong(int songId, int userId) {
+    public Song getUserSong(int songId) {
         return jdbcTemplate.queryForObject(GET_USER_SONG, songRowMapper,
-                songId, userId);
+                songId);
     }
 
     public void addSong(Song song) {
@@ -79,7 +79,7 @@ public class SongDao {
         return namedParameterJdbcTemplate.update(UPDATE_SONG, params);
     }
 
-    public int deleteSong(int songId, int userId) {
-        return jdbcTemplate.update(DELETE_SONG, songId, userId);
+    public int deleteSong(int songId) {
+        return jdbcTemplate.update(DELETE_SONG, songId);
     }
 }
